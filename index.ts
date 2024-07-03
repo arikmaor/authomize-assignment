@@ -10,6 +10,7 @@ async function main() {
 
   console.log(permissionsGraph.getResourceHierarchy('folders/188906894377'))
 
+  console.log(permissionsGraph.whoHasWhat('user:ron@test.authomize.com'))
 }
 
 async function parseFile(path: string) {

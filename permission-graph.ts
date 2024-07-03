@@ -20,7 +20,7 @@ export class PermissionGraph {
     const [id, ...ancestors] = entry.ancestors
     this.graph.addNode('resource', id)
     let child = id
-    for (let parent of entry.ancestors.slice(1)) {
+    for (let parent of ancestors) {
       this.graph.addEdge('parent', child, parent)
       child = parent
     }
@@ -48,6 +48,22 @@ export class PermissionGraph {
       result.push(parent)
       parent = this.graph.getForwardNodes('parent', parent)[0]
     }
+    return result
+  }
+
+  whoHasWhat(identityId: string) {
+    if (!this.graph.hasNode('identity', identityId)) {
+      throw new Error("Identity not found!")
+    }
+
+    const result: string[][] = [];
+    this.graph.getBackwardNodes('member', identityId).forEach(entry => {
+      const [role] = this.graph.getForwardNodes('role-entry', entry)
+      const [resource] = this.graph.getBackwardNodes('assignment', entry)
+      const heirarchy = this.getResourceHierarchy(resource)
+      result.push([...heirarchy, role])
+    })
+
     return result
   }
 
