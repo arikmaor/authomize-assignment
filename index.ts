@@ -6,7 +6,10 @@ import { PermissionGraph } from './permission-graph';
 async function main() {
   const permissionsGraph = await parseFile('./assets_iam_1066060271767_1578227771.1379685.json')
 
-  console.log(permissionsGraph.toString())
+  console.log(permissionsGraph.toString());
+
+  console.log(permissionsGraph.getResourceHierarchy('folders/188906894377'))
+
 }
 
 async function parseFile(path: string) {

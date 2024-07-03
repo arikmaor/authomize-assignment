@@ -20,7 +20,7 @@ export class PermissionGraph {
     const [id, ...ancestors] = entry.ancestors
     this.graph.addNode('resource', id)
     let child = id
-    for (let parent of entry.ancestors) {
+    for (let parent of entry.ancestors.slice(1)) {
       this.graph.addEdge('parent', child, parent)
       child = parent
     }
@@ -35,6 +35,20 @@ export class PermissionGraph {
         this.graph.addEdge('assignment', id, assignmentEntry)
       })
     })
+  }
+
+  getResourceHierarchy(resourceId: string) {
+    if (!this.graph.hasNode('resource', resourceId)) {
+      throw new Error("Resource not found!")
+    }
+
+    const result = [];
+    let parent = resourceId
+    while (parent) {
+      result.push(parent)
+      parent = this.graph.getForwardNodes('parent', parent)[0]
+    }
+    return result
   }
 
   toString() {
