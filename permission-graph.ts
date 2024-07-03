@@ -36,6 +36,11 @@ export class PermissionGraph {
       })
     })
   }
+
+  toString() {
+    return this.graph.toString()
+  }
+
 }
 
 function joinRoleIdentity(role: string, identity: string) {

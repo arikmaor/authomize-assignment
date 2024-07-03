@@ -6,7 +6,7 @@ import { PermissionGraph } from './permission-graph';
 async function main() {
   const permissionsGraph = await parseFile('./assets_iam_1066060271767_1578227771.1379685.json')
 
-  console.log(permissionsGraph)
+  console.log(permissionsGraph.toString())
 }
 
 async function parseFile(path: string) {

@@ -25,6 +25,13 @@ export class Graph<TNode, TEdge> {
   getBackwardNodes(relType: TEdge, nodeId: string) {
     return Array.from(this.edgesToFrom.get(relType)?.get(nodeId) || [])
   }
+
+  toString() {
+    console.log('Nodes:')
+    console.log(this.nodes)
+    console.log('Edges:')
+    console.log(this.edgesFromTo)
+  }
 }
 
 function getOrCreateNestedMap<K, K2, V>(m: Map<K, Map<K2, V>>, key: K) {
