@@ -59,9 +59,14 @@ export class PermissionGraph {
     const result: string[][] = [];
     this.graph.getBackwardNodes('member', identityId).forEach(entry => {
       const [role] = this.graph.getForwardNodes('role-entry', entry)
-      const [resource] = this.graph.getBackwardNodes('assignment', entry)
-      const heirarchy = this.getResourceHierarchy(resource)
-      result.push([...heirarchy, role])
+      const resources = this.graph.getBackwardNodes('assignment', entry)
+
+      let resource = resources.shift()
+      while (resource != undefined) {
+        result.push([resource, role])
+        resources.push(...this.graph.getBackwardNodes('parent', resource))
+        resource = resources.shift()
+      }
     })
 
     return result
